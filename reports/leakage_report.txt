@@ -1,0 +1,32 @@
+LEDGERPRO - DATA LEAKAGE AUDIT REPORT
+=================================================================
+
+Original rows: 10000
+Original columns: 12
+Cleaned columns: 11
+
+FEATURE AUDIT:
+-----------------------------------------------------------------
+invoice_id                | EXCLUDE FROM MODEL INPUT  | Unique identifier; not a predictive feature.
+vendor_id                 | KEEP                      | Available invoice information; no direct leakage identified.
+invoice_date              | KEEP                      | Available invoice information; no direct leakage identified.
+due_date                  | KEEP                      | Available invoice information; no direct leakage identified.
+amount                    | KEEP                      | Available invoice information; no direct leakage identified.
+category                  | KEEP                      | Available invoice information; no direct leakage identified.
+payment_method            | KEEP                      | Available invoice information; no direct leakage identified.
+country                   | KEEP                      | Available invoice information; no direct leakage identified.
+payment_terms_days        | KEEP                      | Available invoice information; no direct leakage identified.
+line_item_count           | KEEP                      | Available invoice information; no direct leakage identified.
+processing_days           | EXCLUDE FROM MODEL INPUT  | Potentially unavailable when an invoice first arrives; excluded to prevent temporal availability leakage.
+is_fraud                  | TARGET ONLY               | Ground-truth label; never use as model input.
+
+EXCLUDED FROM MODEL INPUT:
+- invoice_id: Unique identifier; not a predictive feature.
+- processing_days: Potentially unavailable when an invoice first arrives; excluded to prevent temporal availability leakage.
+
+Target column preserved: is_fraud
+Target must never be included in model input features.
+
+Cleaned dataset: C:\Users\ahsan\Desktop\Ezline tech\Project 4_ledgerpro-invoice-anomaly-detection-system\data\processed\invoices_clean.csv
+
+Note: No direct target-leakage feature was identified among the generated columns. Exclusions are based on identifier handling and prediction-time availability.
