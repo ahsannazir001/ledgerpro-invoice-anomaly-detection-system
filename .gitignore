@@ -1,0 +1,28 @@
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# IDE and local tools
+.vscode/
+.codeartsdoer/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+#Docs
+Task/
