@@ -1,0 +1,47 @@
+LEDGERPRO FINAL MODEL EVALUATION
+=================================================================
+
+MODEL CONFIGURATION
+{
+    "n_estimators": 200,
+    "learning_rate": 0.1,
+    "max_depth": 3,
+    "min_samples_leaf": 5
+}
+
+Test threshold: 0.5
+Test size: 0.2
+Sampling: SMOTE on training data only
+
+TRAIN CLASS DISTRIBUTION
+is_fraud
+0    7920
+1      80
+
+TEST CLASS DISTRIBUTION
+is_fraud
+0    1980
+1      20
+
+TEST METRICS
+accuracy: 0.993500
+precision: 0.684211
+recall: 0.650000
+f1: 0.666667
+pr_auc: 0.734146
+roc_auc: 0.980202
+
+CONFUSION MATRIX
+Rows = actual classes; columns = predicted classes
+[[1974    6]
+ [   7   13]]
+
+CLASSIFICATION REPORT
+              precision    recall  f1-score   support
+
+  Legitimate       1.00      1.00      1.00      1980
+       Fraud       0.68      0.65      0.67        20
+
+    accuracy                           0.99      2000
+   macro avg       0.84      0.82      0.83      2000
+weighted avg       0.99      0.99      0.99      2000

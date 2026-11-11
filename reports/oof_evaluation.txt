@@ -1,0 +1,43 @@
+LEDGERPRO - OUT-OF-FOLD EVALUATION
+=============================================
+Rows evaluated: 10000
+Cross-validation folds: 5
+Threshold: 0.5
+
+POOLED OUT-OF-FOLD METRICS
+---------------------------------------------
+Precision: 0.5540
+Recall: 0.7700
+F1-score: 0.6444
+PR-AUC (Average Precision): 0.6970
+ROC-AUC: 0.9795
+
+CONFUSION MATRIX
+---------------------------------------------
+[[9838   62]
+ [  23   77]]
+
+CLASSIFICATION REPORT
+---------------------------------------------
+              precision    recall  f1-score   support
+
+  Legitimate       1.00      0.99      1.00      9900
+       Fraud       0.55      0.77      0.64       100
+
+    accuracy                           0.99     10000
+   macro avg       0.78      0.88      0.82     10000
+weighted avg       0.99      0.99      0.99     10000
+
+
+FOLD METRICS
+---------------------------------------------
+ fold  precision  recall  f1_score  fraud_samples
+    1   0.551724    0.80  0.653061             20
+    2   0.500000    0.85  0.629630             20
+    3   0.533333    0.80  0.640000             20
+    4   0.650000    0.65  0.650000             20
+    5   0.576923    0.75  0.652174             20
+
+NOTE: These are out-of-fold cross-validation estimates.
+The validation fold was not used for fitting preprocessing or SMOTE.
+Threshold tuning is not performed in this evaluation.

@@ -1,0 +1,66 @@
+REPEATED STRATIFIED CROSS-VALIDATION
+=================================================================
+
+Folds: 5
+Repeats: 5
+Threshold: 0.5
+Sampling: SMOTE inside training folds only
+Classifier: GradientBoostingClassifier
+
+SUMMARY
+            feature_group  feature_count  total_folds  mean_fold_f1  std_fold_f1  mean_fold_precision  mean_fold_recall  pooled_precision  pooled_recall  pooled_f1  pooled_pr_auc  pooled_roc_auc
+              amount_only              1           25      0.421517     0.052895             0.277301             0.904          0.269368          0.904   0.415060       0.751805        0.979463
+amount_plus_other_numeric              7           25      0.614438     0.090136             0.531099             0.744          0.516667          0.744   0.609836       0.686957        0.989060
+
+FOLD METRICS
+            feature_group  fold  precision  recall       f1   pr_auc  roc_auc
+              amount_only     1   0.212766    1.00 0.350877 0.859346 0.997841
+              amount_only     2   0.303030    1.00 0.465116 0.829899 0.998725
+              amount_only     3   0.206897    0.90 0.336449 0.731746 0.945227
+              amount_only     4   0.421053    0.80 0.551724 0.775888 0.991944
+              amount_only     5   0.314815    0.85 0.459459 0.745653 0.993384
+              amount_only     6   0.273973    1.00 0.430108 0.778949 0.996667
+              amount_only     7   0.263889    0.95 0.413043 0.713992 0.995732
+              amount_only     8   0.316667    0.95 0.475000 0.832178 0.997361
+              amount_only     9   0.275862    0.80 0.410256 0.667494 0.964255
+              amount_only    10   0.295082    0.90 0.444444 0.845040 0.994154
+              amount_only    11   0.242424    0.80 0.372093 0.629865 0.962803
+              amount_only    12   0.266667    0.80 0.400000 0.695592 0.989141
+              amount_only    13   0.314815    0.85 0.459459 0.772763 0.991742
+              amount_only    14   0.296875    0.95 0.452381 0.801362 0.996136
+              amount_only    15   0.246753    0.95 0.391753 0.836900 0.995606
+              amount_only    16   0.233766    0.90 0.371134 0.745582 0.898308
+              amount_only    17   0.301587    0.95 0.457831 0.748567 0.995833
+              amount_only    18   0.253731    0.85 0.390805 0.727312 0.943838
+              amount_only    19   0.296875    0.95 0.452381 0.808211 0.996237
+              amount_only    20   0.231707    0.95 0.372549 0.724152 0.993965
+              amount_only    21   0.298246    0.85 0.441558 0.809119 0.989962
+              amount_only    22   0.263158    1.00 0.416667 0.847247 0.998838
+              amount_only    23   0.327273    0.90 0.480000 0.853504 0.994520
+              amount_only    24   0.188889    0.85 0.309091 0.641513 0.966010
+              amount_only    25   0.285714    0.90 0.433735 0.745351 0.993460
+amount_plus_other_numeric     1   0.348837    0.75 0.476190 0.672250 0.992197
+amount_plus_other_numeric     2   0.514286    0.90 0.654545 0.828314 0.997424
+amount_plus_other_numeric     3   0.586207    0.85 0.693878 0.743556 0.983018
+amount_plus_other_numeric     4   0.789474    0.75 0.769231 0.721425 0.979444
+amount_plus_other_numeric     5   0.500000    0.65 0.565217 0.690349 0.986692
+amount_plus_other_numeric     6   0.441176    0.75 0.555556 0.737890 0.994848
+amount_plus_other_numeric     7   0.551724    0.80 0.653061 0.746114 0.994343
+amount_plus_other_numeric     8   0.666667    0.90 0.765957 0.820362 0.996793
+amount_plus_other_numeric     9   0.433333    0.65 0.520000 0.619480 0.987096
+amount_plus_other_numeric    10   0.576923    0.75 0.652174 0.744049 0.993144
+amount_plus_other_numeric    11   0.405405    0.75 0.526316 0.657860 0.980593
+amount_plus_other_numeric    12   0.533333    0.80 0.640000 0.752098 0.995505
+amount_plus_other_numeric    13   0.578947    0.55 0.564103 0.631239 0.987146
+amount_plus_other_numeric    14   0.680000    0.85 0.755556 0.753952 0.996528
+amount_plus_other_numeric    15   0.424242    0.70 0.528302 0.712019 0.990530
+amount_plus_other_numeric    16   0.680000    0.85 0.755556 0.843945 0.996818
+amount_plus_other_numeric    17   0.433333    0.65 0.520000 0.520814 0.988485
+amount_plus_other_numeric    18   0.541667    0.65 0.590909 0.710252 0.988460
+amount_plus_other_numeric    19   0.600000    0.75 0.666667 0.717780 0.996086
+amount_plus_other_numeric    20   0.531250    0.85 0.653846 0.690184 0.990556
+amount_plus_other_numeric    21   0.444444    0.80 0.571429 0.760027 0.989419
+amount_plus_other_numeric    22   0.419355    0.65 0.509804 0.703774 0.993586
+amount_plus_other_numeric    23   0.615385    0.80 0.695652 0.747562 0.996970
+amount_plus_other_numeric    24   0.481481    0.65 0.553191 0.567347 0.983485
+amount_plus_other_numeric    25   0.500000    0.55 0.523810 0.570979 0.990177

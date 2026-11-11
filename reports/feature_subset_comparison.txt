@@ -1,0 +1,37 @@
+FEATURE SUBSET COMPARISON
+============================================================
+
+Threshold: 0.5
+CV folds: 5
+Sampling: SMOTE / SMOTENC, training folds only
+Classifier: GradientBoostingClassifier
+
+            feature_group  feature_count  precision  recall       f1   pr_auc  roc_auc
+              amount_only              1   0.268437    0.91 0.414579 0.768554 0.984444
+  amount_plus_categorical              5   0.348178    0.86 0.495677 0.685160 0.976945
+amount_plus_other_numeric              7   0.513158    0.78 0.619048 0.712164 0.987498
+             all_features             11   0.460606    0.76 0.573585 0.672632 0.988651
+
+FOLD-LEVEL METRICS
+============================================================
+            feature_group  fold  precision  recall       f1   pr_auc  roc_auc
+              amount_only     1   0.212766    1.00 0.350877 0.859346 0.997841
+              amount_only     2   0.303030    1.00 0.465116 0.829899 0.998725
+              amount_only     3   0.206897    0.90 0.336449 0.731746 0.945227
+              amount_only     4   0.421053    0.80 0.551724 0.775888 0.991944
+              amount_only     5   0.314815    0.85 0.459459 0.745653 0.993384
+  amount_plus_categorical     1   0.346154    0.90 0.500000 0.653231 0.993295
+  amount_plus_categorical     2   0.307692    1.00 0.470588 0.775971 0.996427
+  amount_plus_categorical     3   0.346939    0.85 0.492754 0.667535 0.965795
+  amount_plus_categorical     4   0.428571    0.75 0.545455 0.644855 0.992260
+  amount_plus_categorical     5   0.347826    0.80 0.484848 0.730164 0.991780
+amount_plus_other_numeric     1   0.348837    0.75 0.476190 0.672250 0.992197
+amount_plus_other_numeric     2   0.514286    0.90 0.654545 0.828314 0.997424
+amount_plus_other_numeric     3   0.586207    0.85 0.693878 0.743556 0.983018
+amount_plus_other_numeric     4   0.789474    0.75 0.769231 0.721425 0.979444
+amount_plus_other_numeric     5   0.500000    0.65 0.565217 0.690349 0.986692
+             all_features     1   0.416667    0.75 0.535714 0.627302 0.991288
+             all_features     2   0.475000    0.95 0.633333 0.820279 0.997374
+             all_features     3   0.470588    0.80 0.592593 0.725596 0.979672
+             all_features     4   0.500000    0.55 0.523810 0.530679 0.985202
+             all_features     5   0.454545    0.75 0.566038 0.739548 0.991326

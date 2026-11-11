@@ -1,0 +1,25 @@
+LedgerPro Baseline Model Evaluation
+=============================================
+
+Model: RandomForestClassifier
+Class imbalance: class_weight='balanced'
+Test size: 0.2
+Random state: 42
+
+Precision: 0.7500
+Recall: 0.1500
+F1-score: 0.2500
+
+Confusion Matrix:
+[[1979    1]
+ [  17    3]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+  Legitimate       0.99      1.00      1.00      1980
+       Fraud       0.75      0.15      0.25        20
+
+    accuracy                           0.99      2000
+   macro avg       0.87      0.57      0.62      2000
+weighted avg       0.99      0.99      0.99      2000
