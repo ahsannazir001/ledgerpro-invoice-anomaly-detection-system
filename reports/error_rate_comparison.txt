@@ -1,0 +1,142 @@
+LEDGERPRO - ERROR RATE COMPARISON
+=================================================================
+
+OVERALL DATASET BASELINE
+-----------------------------------------------------------------
+ total_invoices  actual_fraud  legitimate_invoices  missed_fraud  false_positives  overall_fraud_rate_pct  overall_fraud_miss_rate_pct  overall_false_positive_rate_pct
+          10000           100                 9900            23               62                     1.0                         23.0                           0.6263
+
+
+FEATURE: VENDOR_ID
+-----------------------------------------------------------------
+  feature  vendor_id  total_invoices  actual_fraud  missed_fraud  false_positives  fraud_rate_pct fraud_miss_rate_pct  false_positive_rate_pct  missed_fraud_share_pct  false_positive_share_pct
+vendor_id VENDOR_023             124             3             0                2          2.4194                 0.0                   1.6529                  0.0000                    3.2258
+vendor_id VENDOR_041             121             1             0                1          0.8264                 0.0                   0.8333                  0.0000                    1.6129
+vendor_id VENDOR_084             121             2             1                0          1.6529                50.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_049             120             1             0                0          0.8333                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_061             118             1             0                0          0.8475                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_085             117             2             0                1          1.7094                 0.0                   0.8696                  0.0000                    1.6129
+vendor_id VENDOR_100             116             0             0                1          0.0000                <NA>                   0.8621                  0.0000                    1.6129
+vendor_id VENDOR_097             116             0             0                1          0.0000                <NA>                   0.8621                  0.0000                    1.6129
+vendor_id VENDOR_004             116             1             0                1          0.8621                 0.0                   0.8696                  0.0000                    1.6129
+vendor_id VENDOR_055             116             2             1                2          1.7241                50.0                   1.7544                  4.3478                    3.2258
+vendor_id VENDOR_012             114             0             0                1          0.0000                <NA>                   0.8772                  0.0000                    1.6129
+vendor_id VENDOR_065             113             1             0                0          0.8850                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_027             112             2             1                1          1.7857                50.0                   0.9091                  4.3478                    1.6129
+vendor_id VENDOR_078             112             2             0                0          1.7857                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_069             112             1             1                1          0.8929               100.0                   0.9009                  4.3478                    1.6129
+vendor_id VENDOR_037             111             3             0                1          2.7027                 0.0                   0.9259                  0.0000                    1.6129
+vendor_id VENDOR_093             111             3             0                1          2.7027                 0.0                   0.9259                  0.0000                    1.6129
+vendor_id VENDOR_011             110             3             1                1          2.7273           33.333333                   0.9346                  4.3478                    1.6129
+vendor_id VENDOR_082             110             2             1                0          1.8182                50.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_009             110             2             0                0          1.8182                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_079             110             1             0                1          0.9091                 0.0                   0.9174                  0.0000                    1.6129
+vendor_id VENDOR_017             109             1             0                0          0.9174                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_048             109             0             0                3          0.0000                <NA>                   2.7523                  0.0000                    4.8387
+vendor_id VENDOR_087             108             1             1                0          0.9259               100.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_051             108             0             0                2          0.0000                <NA>                   1.8519                  0.0000                    3.2258
+vendor_id VENDOR_016             108             1             0                0          0.9259                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_094             106             0             0                1          0.0000                <NA>                   0.9434                  0.0000                    1.6129
+vendor_id VENDOR_073             106             1             1                1          0.9434               100.0                   0.9524                  4.3478                    1.6129
+vendor_id VENDOR_064             105             1             1                3          0.9524               100.0                   2.8846                  4.3478                    4.8387
+vendor_id VENDOR_001             104             1             1                0          0.9615               100.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_008             104             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_018             104             2             0                0          1.9231                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_025             104             1             0                0          0.9615                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_050             104             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_002             104             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_006             104             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_091             104             1             0                0          0.9615                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_030             104             0             0                2          0.0000                <NA>                   1.9231                  0.0000                    3.2258
+vendor_id VENDOR_003             104             1             0                1          0.9615                 0.0                   0.9709                  0.0000                    1.6129
+vendor_id VENDOR_086             103             0             0                1          0.0000                <NA>                   0.9709                  0.0000                    1.6129
+vendor_id VENDOR_072             102             0             0                3          0.0000                <NA>                   2.9412                  0.0000                    4.8387
+vendor_id VENDOR_080             102             2             0                0          1.9608                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_035             101             3             1                2          2.9703           33.333333                   2.0408                  4.3478                    3.2258
+vendor_id VENDOR_045             101             1             0                1          0.9901                 0.0                   1.0000                  0.0000                    1.6129
+vendor_id VENDOR_054             101             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_022             100             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_095             100             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_046             100             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_083              99             1             0                0          1.0101                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_063              99             1             1                0          1.0101               100.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_044              99             1             0                0          1.0101                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_059              98             1             1                1          1.0204               100.0                   1.0309                  4.3478                    1.6129
+vendor_id VENDOR_024              98             1             1                1          1.0204               100.0                   1.0309                  4.3478                    1.6129
+vendor_id VENDOR_007              98             2             0                1          2.0408                 0.0                   1.0417                  0.0000                    1.6129
+vendor_id VENDOR_066              98             1             0                1          1.0204                 0.0                   1.0309                  0.0000                    1.6129
+vendor_id VENDOR_042              98             1             0                0          1.0204                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_088              98             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_081              98             1             0                1          1.0204                 0.0                   1.0309                  0.0000                    1.6129
+vendor_id VENDOR_099              98             1             1                0          1.0204               100.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_032              97             1             0                0          1.0309                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_033              97             1             0                0          1.0309                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_034              97             1             0                0          1.0309                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_057              96             1             0                0          1.0417                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_015              96             0             0                1          0.0000                <NA>                   1.0417                  0.0000                    1.6129
+vendor_id VENDOR_076              96             1             1                1          1.0417               100.0                   1.0526                  4.3478                    1.6129
+vendor_id VENDOR_014              96             3             1                0          3.1250           33.333333                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_098              94             3             1                0          3.1915           33.333333                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_071              94             2             0                0          2.1277                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_074              94             0             0                1          0.0000                <NA>                   1.0638                  0.0000                    1.6129
+vendor_id VENDOR_067              94             1             0                0          1.0638                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_068              93             0             0                2          0.0000                <NA>                   2.1505                  0.0000                    3.2258
+vendor_id VENDOR_070              93             0             0                1          0.0000                <NA>                   1.0753                  0.0000                    1.6129
+vendor_id VENDOR_062              93             0             0                1          0.0000                <NA>                   1.0753                  0.0000                    1.6129
+vendor_id VENDOR_053              93             1             0                0          1.0753                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_096              92             0             0                2          0.0000                <NA>                   2.1739                  0.0000                    3.2258
+vendor_id VENDOR_020              92             0             0                1          0.0000                <NA>                   1.0870                  0.0000                    1.6129
+vendor_id VENDOR_026              92             1             0                1          1.0870                 0.0                   1.0989                  0.0000                    1.6129
+vendor_id VENDOR_058              92             2             0                1          2.1739                 0.0                   1.1111                  0.0000                    1.6129
+vendor_id VENDOR_075              91             0             0                1          0.0000                <NA>                   1.0989                  0.0000                    1.6129
+vendor_id VENDOR_029              91             0             0                1          0.0000                <NA>                   1.0989                  0.0000                    1.6129
+vendor_id VENDOR_089              91             1             0                0          1.0989                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_013              91             1             0                0          1.0989                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_010              90             2             1                0          2.2222                50.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_019              90             1             0                0          1.1111                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_031              90             1             0                1          1.1111                 0.0                   1.1236                  0.0000                    1.6129
+vendor_id VENDOR_090              90             0             0                1          0.0000                <NA>                   1.1111                  0.0000                    1.6129
+vendor_id VENDOR_056              89             1             0                0          1.1236                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_060              89             2             0                1          2.2472                 0.0                   1.1494                  0.0000                    1.6129
+vendor_id VENDOR_005              88             0             0                1          0.0000                <NA>                   1.1364                  0.0000                    1.6129
+vendor_id VENDOR_028              88             2             1                0          2.2727                50.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_077              88             1             0                0          1.1364                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_040              86             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_036              86             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_021              86             1             1                2          1.1628               100.0                   2.3529                  4.3478                    3.2258
+vendor_id VENDOR_092              84             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_039              84             4             1                0          4.7619                25.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_052              81             2             1                0          2.4691                50.0                   0.0000                  4.3478                    0.0000
+vendor_id VENDOR_047              80             1             0                1          1.2500                 0.0                   1.2658                  0.0000                    1.6129
+vendor_id VENDOR_043              79             1             0                0          1.2658                 0.0                   0.0000                  0.0000                    0.0000
+vendor_id VENDOR_038              77             0             0                0          0.0000                <NA>                   0.0000                  0.0000                    0.0000
+
+
+FEATURE: CATEGORY
+-----------------------------------------------------------------
+ feature        category  total_invoices  actual_fraud  missed_fraud  false_positives  fraud_rate_pct  fraud_miss_rate_pct  false_positive_rate_pct  missed_fraud_share_pct  false_positive_share_pct
+category Office Supplies            2196            22             7               16          1.0018              31.8182                   0.7360                 30.4348                   25.8065
+category        Services            1832            22             3               12          1.2009              13.6364                   0.6630                 13.0435                   19.3548
+category       Equipment            1556            13             3                7          0.8355              23.0769                   0.4537                 13.0435                   11.2903
+category     Maintenance            1503            17             6               11          1.1311              35.2941                   0.7402                 26.0870                   17.7419
+category          Travel            1493            16             2               10          1.0717              12.5000                   0.6770                  8.6957                   16.1290
+category        Software            1420            10             2                6          0.7042              20.0000                   0.4255                  8.6957                    9.6774
+
+
+FEATURE: PAYMENT_METHOD
+-----------------------------------------------------------------
+       feature payment_method  total_invoices  actual_fraud  missed_fraud  false_positives  fraud_rate_pct  fraud_miss_rate_pct  false_positive_rate_pct  missed_fraud_share_pct  false_positive_share_pct
+payment_method  Bank Transfer            5452            63            10               38          1.1555              15.8730                   0.7051                 43.4783                   61.2903
+payment_method         Cheque            2038            21             6               16          1.0304              28.5714                   0.7933                 26.0870                   25.8065
+payment_method    Credit Card            2001            14             5                6          0.6997              35.7143                   0.3020                 21.7391                    9.6774
+payment_method           Cash             509             2             2                2          0.3929             100.0000                   0.3945                  8.6957                    3.2258
+
+
+FEATURE: COUNTRY
+-----------------------------------------------------------------
+feature  country  total_invoices  actual_fraud  missed_fraud  false_positives  fraud_rate_pct  fraud_miss_rate_pct  false_positive_rate_pct  missed_fraud_share_pct  false_positive_share_pct
+country Pakistan            4463            46             9               30          1.0307              19.5652                   0.6792                 39.1304                   48.3871
+country      USA            2059            20             8               13          0.9713              40.0000                   0.6376                 34.7826                   20.9677
+country       UK            1504            13             4                7          0.8644              30.7692                   0.4695                 17.3913                   11.2903
+country      UAE            1185            12             1                6          1.0127               8.3333                   0.5115                  4.3478                    9.6774
+country  Germany             789             9             1                6          1.1407              11.1111                   0.7692                  4.3478                    9.6774

@@ -1,0 +1,37 @@
+LEDGERPRO - FEATURE GROUP COMPARISON
+=======================================================
+Rows: 10000
+Folds: 5
+Threshold: 0.5
+Model: GradientBoostingClassifier
+Imbalance handling: SMOTE (sampling_strategy=0.5)
+
+POOLED OUT-OF-FOLD RESULTS
+-------------------------------------------------------
+ feature_group  feature_count  precision  recall  f1_score   pr_auc  roc_auc
+   amount_only              1   0.268437    0.91  0.414579 0.768554 0.984444
+without_amount             10   0.000000    0.00  0.000000 0.008980 0.477240
+  all_features             11   0.574627    0.77  0.658120 0.703118 0.984681
+
+FOLD-LEVEL RESULTS
+-------------------------------------------------------
+ feature_group  fold  precision  recall  f1_score
+   amount_only     1   0.212766    1.00  0.350877
+   amount_only     2   0.303030    1.00  0.465116
+   amount_only     3   0.206897    0.90  0.336449
+   amount_only     4   0.421053    0.80  0.551724
+   amount_only     5   0.314815    0.85  0.459459
+without_amount     1   0.000000    0.00  0.000000
+without_amount     2   0.000000    0.00  0.000000
+without_amount     3   0.000000    0.00  0.000000
+without_amount     4   0.000000    0.00  0.000000
+without_amount     5   0.000000    0.00  0.000000
+  all_features     1   0.600000    0.90  0.720000
+  all_features     2   0.500000    0.80  0.615385
+  all_features     3   0.576923    0.75  0.652174
+  all_features     4   0.636364    0.70  0.666667
+  all_features     5   0.583333    0.70  0.636364
+
+NOTE: All preprocessing and SMOTE fitting occur inside each
+training fold. Validation folds are not resampled.
+This experiment does not tune the classification threshold.

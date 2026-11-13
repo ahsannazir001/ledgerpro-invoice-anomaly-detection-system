@@ -1,0 +1,174 @@
+LEDGERPRO - ERROR PATTERN ANALYSIS
+=======================================================
+
+Total invoices analyzed: 10000
+False negatives: 23
+False positives: 62
+
+FALSE NEGATIVES
+-------------------------------------------------------
+Invoice count: 23
+
+Numeric feature statistics:
+         amount  payment_terms_days  line_item_count
+count     23.00               23.00            23.00
+mean   17270.64               26.74             7.43
+std    15218.77               11.04             5.24
+min     5473.91               15.00             1.00
+25%     9693.06               15.00             3.00
+50%    12678.61               30.00             5.00
+75%    15663.46               30.00            13.00
+max    73147.23               60.00            15.00
+
+Distribution by vendor_id:
+    error_group  vendor_id  invoice_count  average_amount  median_amount
+false_negatives VENDOR_001              1         8718.93        8718.93
+false_negatives VENDOR_059              1        14631.64       14631.64
+false_negatives VENDOR_098              1         9405.96        9405.96
+false_negatives VENDOR_087              1        13909.93       13909.93
+false_negatives VENDOR_084              1        12660.08       12660.08
+false_negatives VENDOR_082              1        14486.91       14486.91
+false_negatives VENDOR_076              1         7151.97        7151.97
+false_negatives VENDOR_073              1        46457.02       46457.02
+false_negatives VENDOR_069              1        15118.79       15118.79
+false_negatives VENDOR_064              1         7005.39        7005.39
+false_negatives VENDOR_063              1        11317.03       11317.03
+false_negatives VENDOR_055              1        33031.81       33031.81
+false_negatives VENDOR_010              1        12021.17       12021.17
+false_negatives VENDOR_052              1         9980.16        9980.16
+false_negatives VENDOR_039              1        16208.14       16208.14
+false_negatives VENDOR_035              1        73147.23       73147.23
+false_negatives VENDOR_028              1        12678.61       12678.61
+false_negatives VENDOR_027              1        24303.53       24303.53
+false_negatives VENDOR_024              1        11318.76       11318.76
+false_negatives VENDOR_021              1        17703.19       17703.19
+false_negatives VENDOR_014              1        13169.70       13169.70
+false_negatives VENDOR_011              1         5473.91        5473.91
+false_negatives VENDOR_099              1         7324.79        7324.79
+
+Distribution by category:
+    error_group        category  invoice_count  average_amount  median_amount
+false_negatives Office Supplies              7    11508.361429      11318.760
+false_negatives     Maintenance              6    16832.751667      12018.800
+false_negatives       Equipment              3    19166.293333      14486.910
+false_negatives        Services              3    34867.576667      24303.530
+false_negatives        Software              2    14114.655000      14114.655
+false_negatives          Travel              2    12669.345000      12669.345
+
+Distribution by payment_method:
+    error_group payment_method  invoice_count  average_amount  median_amount
+false_negatives  Bank Transfer             10    15774.867000       9693.060
+false_negatives         Cheque              6    18034.246667      15347.525
+false_negatives    Credit Card              5    20923.538000      15118.790
+false_negatives           Cash              2    13326.405000      13326.405
+
+Distribution by country:
+    error_group  country  invoice_count  average_amount  median_amount
+false_negatives Pakistan              9    17530.598889      13909.930
+false_negatives      USA              8    10367.691250      11669.965
+false_negatives       UK              4    31725.507500      22174.420
+false_negatives  Germany              1    15118.790000      15118.790
+false_negatives      UAE              1    14486.910000      14486.910
+
+FALSE POSITIVES
+-------------------------------------------------------
+Invoice count: 62
+
+Numeric feature statistics:
+         amount  payment_terms_days  line_item_count
+count     62.00               62.00            62.00
+mean   20247.90               32.18             7.84
+std    10030.28               13.26             4.53
+min    11417.24               15.00             1.00
+25%    15153.65               30.00             4.00
+50%    18007.99               30.00             7.50
+75%    20730.24               45.00            12.00
+max    71530.74               60.00            15.00
+
+Distribution by vendor_id:
+    error_group  vendor_id  invoice_count  average_amount  median_amount
+false_positives VENDOR_048              3    32516.383333      14601.170
+false_positives VENDOR_072              3    25010.646667      19170.130
+false_positives VENDOR_064              3    18515.776667      15087.530
+false_positives VENDOR_035              2    38439.800000      38439.800
+false_positives VENDOR_068              2    27921.105000      27921.105
+false_positives VENDOR_096              2    15735.605000      15735.605
+false_positives VENDOR_055              2    25966.185000      25966.185
+false_positives VENDOR_051              2    13958.265000      13958.265
+false_positives VENDOR_021              2    14886.350000      14886.350
+false_positives VENDOR_023              2    19478.280000      19478.280
+false_positives VENDOR_030              2    16336.625000      16336.625
+false_positives VENDOR_003              1    18797.410000      18797.410
+false_positives VENDOR_069              1    12571.600000      12571.600
+false_positives VENDOR_070              1    15474.970000      15474.970
+false_positives VENDOR_073              1    20767.960000      20767.960
+false_positives VENDOR_074              1    22490.440000      22490.440
+false_positives VENDOR_076              1    19832.420000      19832.420
+false_positives VENDOR_075              1    14782.880000      14782.880
+false_positives VENDOR_079              1    19192.930000      19192.930
+false_positives VENDOR_081              1    15369.710000      15369.710
+false_positives VENDOR_085              1    18115.760000      18115.760
+false_positives VENDOR_086              1    17757.930000      17757.930
+false_positives VENDOR_090              1    14459.240000      14459.240
+false_positives VENDOR_093              1    18372.360000      18372.360
+false_positives VENDOR_094              1    15381.840000      15381.840
+false_positives VENDOR_097              1    16702.990000      16702.990
+false_positives VENDOR_066              1    15974.190000      15974.190
+false_positives VENDOR_058              1    18182.050000      18182.050
+false_positives VENDOR_062              1    18476.950000      18476.950
+false_positives VENDOR_060              1    20267.670000      20267.670
+false_positives VENDOR_005              1    18036.000000      18036.000
+false_positives VENDOR_007              1    14812.230000      14812.230
+false_positives VENDOR_011              1    20617.080000      20617.080
+false_positives VENDOR_012              1    16445.380000      16445.380
+false_positives VENDOR_015              1    15952.070000      15952.070
+false_positives VENDOR_020              1    18614.040000      18614.040
+false_positives VENDOR_024              1    15869.520000      15869.520
+false_positives VENDOR_026              1    30087.060000      30087.060
+false_positives VENDOR_027              1    34720.380000      34720.380
+false_positives VENDOR_029              1    14223.660000      14223.660
+false_positives VENDOR_031              1    22371.410000      22371.410
+false_positives VENDOR_037              1    14365.240000      14365.240
+false_positives VENDOR_041              1    16050.270000      16050.270
+false_positives VENDOR_045              1    16784.660000      16784.660
+false_positives VENDOR_047              1    18364.930000      18364.930
+false_positives VENDOR_004              1    26401.700000      26401.700
+false_positives VENDOR_059              1    21335.050000      21335.050
+false_positives VENDOR_100              1    13774.740000      13774.740
+
+Distribution by category:
+    error_group        category  invoice_count  average_amount  median_amount
+false_positives Office Supplies             16    20142.663125      15325.720
+false_positives        Services             12    18897.390833      18148.905
+false_positives     Maintenance             11    20853.624545      19170.130
+false_positives          Travel             10    17993.394000      16615.020
+false_positives       Equipment              7    23762.342857      15087.530
+false_positives        Software              6    21776.343333      22284.140
+
+Distribution by payment_method:
+    error_group payment_method  invoice_count  average_amount  median_amount
+false_positives  Bank Transfer             38    19518.299211      17382.320
+false_positives         Cheque             16    18072.223750      16951.905
+false_positives    Credit Card              6    31896.475000      25420.690
+false_positives           Cash              2    16569.885000      16569.885
+
+Distribution by country:
+    error_group  country  invoice_count  average_amount  median_amount
+false_positives Pakistan             30    19429.755333      17842.715
+false_positives      USA             13    21112.953846      15952.070
+false_positives       UK              7    19846.054286      18036.000
+false_positives  Germany              6    21071.770000      18581.170
+false_positives      UAE              6    22109.251667      19439.550
+
+FULL DATASET BASELINE
+-------------------------------------------------------
+Numeric feature statistics:
+          amount  payment_terms_days  line_item_count
+count   10000.00            10000.00         10000.00
+mean     3022.98               33.77             8.06
+std      6514.18               12.36             4.29
+min        84.95               15.00             1.00
+25%      1019.30               30.00             4.00
+50%      1797.10               30.00             8.00
+75%      3226.45               45.00            12.00
+max    199166.78               60.00            15.00

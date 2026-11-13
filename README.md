@@ -421,13 +421,78 @@ Additional CSV and JSON files contain detailed predictions, metrics, and analysi
 
 The implementation, model training, imbalance handling, and independent synthetic evaluation have been completed.
 
-However, the mentor's target F1-score is greater than 0.70.
+In the original Task 2 evaluation, the mentor's target F1-score greater than 0.70 was not reached:
 
-The independent synthetic test F1-score is 0.6564.
+- Original held-out test F1-score: 0.6667.
+- Original independent synthetic test F1-score: 0.6564.
 
-**Therefore, the target has not yet been achieved, and mentor acceptance is not claimed.**
+The subsequent validation-based threshold optimization and fresh synthetic evaluation are documented below. Mentor acceptance remains pending and is not claimed.
 
-The threshold remains 0.50 in Task 2. Cost-sensitive threshold optimization is reserved for Task 3.
+The original final-model results above used threshold 0.50. A separate follow-up experiment selected a frozen threshold from out-of-fold validation predictions. Task 3 has not started.
+
+## Threshold Optimization and Fresh Synthetic Evaluation
+
+### Validation-based Threshold Selection
+
+The final Gradient Boosting configuration was evaluated with Repeated Stratified 5-Fold Cross-Validation using 5 repeats. Preprocessing and SMOTE were fitted independently within each training fold; validation folds were not resampled. Each record's out-of-fold probability was averaged across its five validation appearances.
+
+The threshold was selected using these out-of-fold validation predictions only. The previously evaluated held-out test and external test datasets were not used to select it.
+
+| Item | Result |
+|---|---:|
+| Frozen threshold | 0.58 |
+| OOF precision | 0.7129 |
+| OOF recall | 0.7200 |
+| OOF F1-score | 0.7164 |
+
+### Fresh Independent Synthetic Evaluation
+
+After threshold selection, the configured final pipeline was trained on the processed dataset and evaluated once on a fresh synthetic dataset generated with seed `20261112`. This is a separate evaluation from the original held-out test (F1-score 0.6667) and the earlier independent synthetic test (F1-score 0.6564); neither earlier result was replaced.
+
+| Property / metric | Result |
+|---|---:|
+| Random seed | 20261112 |
+| Total records | 10,000 |
+| Fraud records | 100 |
+| Legitimate records | 9,900 |
+| Frozen threshold | 0.58 |
+| Accuracy | 0.9952 |
+| Precision | 0.7826 |
+| Recall | 0.7200 |
+| F1-score | 0.7500 |
+| PR-AUC | 0.8066 |
+| ROC-AUC | 0.9802 |
+
+Confusion matrix (actual rows, predicted columns): `[[9880, 20], [28, 72]]` (TN=9880, FP=20, FN=28, TP=72).
+
+This result exceeds F1 0.70 on a fresh independent synthetic dataset. It does not establish real-world fraud detection performance, and mentor acceptance remains pending.
+
+### Inference Usage
+
+Run inference on raw invoice records with:
+
+```bash
+python src/predict_invoices.py data/external_test/threshold_optimized_external_seed_20261112.csv
+```
+
+The script loads the approved saved pipeline and its frozen configuration, applies threshold 0.58 to `predict_proba()` fraud probabilities, and validates required columns and values. For the input shown above, the default output is `data/external_test/threshold_optimized_external_seed_20261112_predictions.csv`. Existing outputs are protected and will not be replaced unless `--overwrite` is supplied. The predictions CSV is written using a temporary file and atomic publish; the input CSV cannot be overwritten.
+
+Use `--output` to choose another destination, or `--overwrite` for an intentional replacement:
+
+```bash
+python src/predict_invoices.py data/external_test/threshold_optimized_external_seed_20261112.csv --output reports/inference_predictions.csv
+python src/predict_invoices.py data/external_test/threshold_optimized_external_seed_20261112.csv --overwrite
+```
+
+### Inference Tests
+
+Run the inference tests with:
+
+```bash
+python -m unittest discover -s tests -p "test_predict_invoices.py" -v
+```
+
+The latest local run passed all 19 inference tests.
 
 ---
 
@@ -435,50 +500,63 @@ The threshold remains 0.50 in Task 2. Cost-sensitive threshold optimization is r
 
 ```text
 ledgerpro-invoice-anomaly-detection-system/
-│
-├── data/
-│   ├── raw/
-│   │   └── invoices_raw.csv
-│   ├── processed/
-│   │   └── invoices_clean.csv
-│   └── external_test/
-│       └── invoices_external_test_raw.csv
-│
-├── models/
-│   ├── baseline_model.joblib
-│   ├── baseline_pipeline.joblib
-│   ├── preprocessing_pipeline.joblib
-│   ├── final_model.joblib
-│   ├── final_pipeline.joblib
-│   └── final_preprocessing_pipeline.joblib
-│
-├── reports/
-│
-├── src/
-│   ├── generate_dataset.py
-│   ├── validate_dataset.py
-│   ├── detect_leakage.py
-│   ├── analyze_features.py
-│   ├── train_baseline.py
-│   ├── compare.py
-│   ├── train_smotenc.py
-│   ├── train_gb_weighted.py
-│   ├── analyze_model_features.py
-│   ├── evaluate_oof.py
-│   ├── analyze_oof_errors.py
-│   ├── analyze_error_patterns.py
-│   ├── compare_error_rates.py
-│   ├── compare_feature_groups.py
-│   ├── compare_feature_subsets.py
-│   ├── validate_feature_selection.py
-│   ├── tune_gradient_boosting.py
-│   ├── train_final_model.py
-│   ├── generate_external_test.py
-│   └── evaluate_external_test.py
-│
-├── requirements.txt
-├── README.md
-└── .gitignore
+|-- data/
+|   |-- raw/invoices_raw.csv
+|   |-- processed/invoices_clean.csv
+|   `-- external_test/
+|       |-- invoices_external_test_raw.csv
+|       |-- threshold_optimized_external_seed_20261112.csv
+|-- models/
+|   |-- baseline_model.joblib
+|   |-- baseline_pipeline.joblib
+|   |-- preprocessing_pipeline.joblib
+|   |-- final_model.joblib
+|   |-- final_pipeline.joblib
+|   |-- final_preprocessing_pipeline.joblib
+|   |-- threshold_optimized_config.json
+|   |-- threshold_optimized_pipeline.joblib
+|   |-- threshold_optimized_model.joblib
+|   `-- threshold_optimized_preprocessing_pipeline.joblib
+|-- reports/
+|   |-- final_model_evaluation.txt
+|   |-- final_model_metrics.json
+|   |-- final_test_predictions.csv
+|   |-- external_test_evaluation.txt
+|   |-- external_test_metrics.json
+|   |-- external_test_predictions.csv
+|   |-- threshold_optimization_validation.csv
+|   |-- threshold_optimization_oof_predictions.csv
+|   |-- threshold_optimized_evaluation.txt
+|   |-- threshold_optimized_metrics.json
+|   `-- threshold_optimized_external_predictions.csv
+|-- src/
+|   |-- generate_dataset.py
+|   |-- validate_dataset.py
+|   |-- detect_leakage.py
+|   |-- analyze_features.py
+|   |-- train_baseline.py
+|   |-- compare.py
+|   |-- train_smotenc.py
+|   |-- train_gb_weighted.py
+|   |-- analyze_model_features.py
+|   |-- evaluate_oof.py
+|   |-- analyze_oof_errors.py
+|   |-- analyze_error_patterns.py
+|   |-- compare_error_rates.py
+|   |-- compare_feature_groups.py
+|   |-- compare_feature_subsets.py
+|   |-- validate_feature_selection.py
+|   |-- tune_gradient_boosting.py
+|   |-- train_final_model.py
+|   |-- optimize_threshold.py
+|   |-- predict_invoices.py
+|   |-- generate_external_test.py
+|   `-- evaluate_external_test.py
+|-- tests/
+|   `-- test_predict_invoices.py
+|-- requirements.txt
+|-- README.md
+`-- .gitignore
 ```
 
 ---
@@ -530,6 +608,22 @@ python src/generate_external_test.py
 python src/evaluate_external_test.py
 ```
 
+## 7. Threshold optimization and inference
+
+Run the threshold optimization and fresh synthetic evaluation:
+
+```bash
+python src/optimize_threshold.py
+```
+
+Run inference on the fresh synthetic dataset:
+
+```bash
+python src/predict_invoices.py data/external_test/threshold_optimized_external_seed_20261112.csv
+```
+
+The threshold selection method, evaluation results, and inference options are documented in the [Threshold Optimization and Fresh Synthetic Evaluation](#threshold-optimization-and-fresh-synthetic-evaluation) section above.
+
 ---
 
 # Limitations
@@ -540,7 +634,7 @@ python src/evaluate_external_test.py
 - Statistical associations do not prove causation.
 - The dataset does not represent all real-world invoice fraud scenarios.
 - The independent test dataset uses the same synthetic generation process with a different random seed.
-- The mentor's target F1-score greater than 0.70 has not yet been achieved.
+- The original held-out test F1-score was 0.6667. A follow-up validation-selected threshold achieved F1 0.7500 on a fresh dataset from the same synthetic generation process; this does not establish real-world performance.
 - Real-world performance must be evaluated using representative, independently collected data.
 
 ---
@@ -570,5 +664,9 @@ python src/evaluate_external_test.py
 - [x] Independent synthetic test evaluation
 - [x] Model and report generation
 - [x] README documentation
-- [ ] Mentor F1 target greater than 0.70
+- [x] Validation-based threshold optimization
+- [x] Fresh synthetic evaluation with frozen threshold
+- [x] Saved-pipeline inference implementation
+- [x] Inference tests (19 passed in latest local run)
+- [x] F1 greater than 0.70 on the fresh synthetic evaluation dataset
 - [ ] Mentor acceptance

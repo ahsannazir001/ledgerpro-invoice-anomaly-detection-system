@@ -1,0 +1,53 @@
+LEDGERPRO - OOF ERROR ANALYSIS
+=============================================
+
+PREDICTION OUTCOMES
+---------------------------------------------
+True Positives: 77
+True Negatives: 9838
+False Positives: 62
+False Negatives: 23
+
+FALSE NEGATIVE ANALYSIS
+---------------------------------------------
+Missed fraud invoices: 23
+Average amount: 17270.64
+Median amount: 12678.61
+Maximum amount: 73147.23
+Minimum amount: 5473.91
+Average probability: 0.1821
+
+Highest probability missed fraud invoices:
+invoice_id   amount  probability
+INV-000120 13909.93     0.472687
+INV-002982 16208.14     0.438521
+INV-006765 33031.81     0.407477
+INV-005534 73147.23     0.407103
+INV-009773 14486.91     0.393807
+INV-004703 17703.19     0.332015
+INV-009317 13169.70     0.268304
+INV-009293 46457.02     0.256765
+INV-007900 24303.53     0.256083
+INV-009550 15118.79     0.230953
+
+FALSE POSITIVE ANALYSIS
+---------------------------------------------
+Legitimate invoices flagged as fraud: 62
+Average amount: 20247.90
+Median amount: 18007.99
+Maximum amount: 71530.74
+Minimum amount: 11417.24
+Average probability: 0.8021
+
+Highest probability false positives:
+invoice_id   amount  probability
+INV-004468 27286.91     0.994007
+INV-002018 58380.35     0.992087
+INV-004082 30087.06     0.990435
+INV-003480 26401.70     0.989872
+INV-002289 22371.41     0.987646
+INV-000430 34720.38     0.978869
+INV-001675 42671.17     0.977369
+INV-004524 20617.08     0.976372
+INV-006333 29646.29     0.965268
+INV-005863 20767.96     0.956971

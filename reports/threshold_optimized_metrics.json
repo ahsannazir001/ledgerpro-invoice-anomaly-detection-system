@@ -1,0 +1,15 @@
+{
+  "accuracy": 0.9952,
+  "precision": 0.782608695652174,
+  "recall": 0.72,
+  "f1": 0.75,
+  "pr_auc": 0.8066366312161237,
+  "roc_auc": 0.9801550505050505,
+  "selected_threshold": 0.58,
+  "threshold_selection_method": "Maximum F1 on mean per-sample probabilities from 5x5 repeated stratified OOF predictions",
+  "external_random_seed": 20261112,
+  "external_records": 10000,
+  "external_fraud_cases": 100,
+  "cv_folds": 5,
+  "cv_repeats": 5
+}
