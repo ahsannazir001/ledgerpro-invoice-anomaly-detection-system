@@ -1,0 +1,2 @@
+total_invoices,actual_fraud,legitimate_invoices,missed_fraud,false_positives,overall_fraud_rate_pct,overall_fraud_miss_rate_pct,overall_false_positive_rate_pct
+10000,100,9900,23,62,1.0,23.0,0.6262626262626263

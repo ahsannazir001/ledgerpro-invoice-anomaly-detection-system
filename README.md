@@ -428,7 +428,7 @@ In the original Task 2 evaluation, the mentor's target F1-score greater than 0.7
 
 The subsequent validation-based threshold optimization and fresh synthetic evaluation are documented below. Mentor acceptance remains pending and is not claimed.
 
-The original final-model results above used threshold 0.50. A separate follow-up experiment selected a frozen threshold from out-of-fold validation predictions. Task 3 has not started.
+The original final-model results above used threshold 0.50. Task 2's later F1-based threshold experiment and its results are preserved as historical results below. Task 3 adds a separate cost-sensitive decision layer and updates the inference threshold configuration without replacing those results or the saved pipeline.
 
 ## Threshold Optimization and Fresh Synthetic Evaluation
 
@@ -475,7 +475,7 @@ Run inference on raw invoice records with:
 python src/predict_invoices.py data/external_test/threshold_optimized_external_seed_20261112.csv
 ```
 
-The script loads the approved saved pipeline and its frozen configuration, applies threshold 0.58 to `predict_proba()` fraud probabilities, and validates required columns and values. For the input shown above, the default output is `data/external_test/threshold_optimized_external_seed_20261112_predictions.csv`. Existing outputs are protected and will not be replaced unless `--overwrite` is supplied. The predictions CSV is written using a temporary file and atomic publish; the input CSV cannot be overwritten.
+The script loads the approved saved pipeline and its frozen configuration, applies the configured Task 3 threshold to `predict_proba()` fraud probabilities, and validates required columns and values. For the input shown above, the default output is `data/external_test/threshold_optimized_external_seed_20261112_predictions.csv`. Existing outputs are protected and will not be replaced unless `--overwrite` is supplied. The predictions CSV is written using a temporary file and atomic publish; the input CSV cannot be overwritten.
 
 Use `--output` to choose another destination, or `--overwrite` for an intentional replacement:
 
@@ -492,7 +492,54 @@ Run the inference tests with:
 python -m unittest discover -s tests -p "test_predict_invoices.py" -v
 ```
 
-The latest local run passed all 19 inference tests.
+The inference tests cover the configured Task 3 threshold.
+
+## Task 3: Cost-Sensitive Threshold Decision
+
+### Decision log
+
+Task 3 assigns a $5 cost to reviewing a legitimate invoice (a false positive) and a $500 cost to missing a fraudulent invoice (a false negative). For each candidate threshold, total business cost is `FP * $5 + FN * $500`; fraud is predicted when `fraud_probability >= threshold`.
+
+The decision uses `reports/threshold_optimization_oof_predictions.csv`. Inspection confirmed one row per original invoice, with the per-invoice fraud probability already averaged over five repeated validation appearances. `row_index` is unique, labels are binary, and probabilities are finite and within [0, 1]. Thus each of the 10,000 validation invoices contributes once. This OOF source is from Task 2's repeated stratified 5-fold x 5-repeat workflow, with preprocessing and SMOTE fitted within each training fold. The fresh evaluation set is never used to choose the threshold.
+
+When costs tie, selection prefers higher recall, then higher precision, then the higher threshold. The computed decision is:
+
+| Item | Result |
+|---|---:|
+| False-positive cost | $5.00 |
+| False-negative cost | $500.00 |
+| Selected threshold | 0.1 |
+| Validation invoices | 10,000 (100 fraud, 9,900 legitimate) |
+| Validation FP | 138 |
+| Validation FN | 15 |
+| Validation total cost | $8,190.00 |
+| Validation precision | 0.3812 |
+| Validation recall | 0.8500 |
+| Validation F1 | 0.5263 |
+
+| Threshold | TP | TN | FP | FN | Precision | Recall | F1 | FP cost | FN cost | Total cost |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0.1 | 85 | 9,762 | 138 | 15 | 0.3812 | 0.8500 | 0.5263 | $690 | $7,500 | $8,190 |
+| 0.2 | 78 | 9,812 | 88 | 22 | 0.4699 | 0.7800 | 0.5865 | $440 | $11,000 | $11,440 |
+| 0.3 | 76 | 9,832 | 68 | 24 | 0.5278 | 0.7600 | 0.6230 | $340 | $12,000 | $12,340 |
+| 0.4 | 73 | 9,851 | 49 | 27 | 0.5984 | 0.7300 | 0.6577 | $245 | $13,500 | $13,745 |
+| 0.5 | 72 | 9,863 | 37 | 28 | 0.6606 | 0.7200 | 0.6890 | $185 | $14,000 | $14,185 |
+| 0.6 | 70 | 9,873 | 27 | 30 | 0.7216 | 0.7000 | 0.7107 | $135 | $15,000 | $15,135 |
+| 0.7 | 65 | 9,881 | 19 | 35 | 0.7738 | 0.6500 | 0.7065 | $95 | $17,500 | $17,595 |
+| 0.8 | 60 | 9,885 | 15 | 40 | 0.8000 | 0.6000 | 0.6857 | $75 | $20,000 | $20,075 |
+| 0.9 | 52 | 9,889 | 11 | 48 | 0.8254 | 0.5200 | 0.6380 | $55 | $24,000 | $24,055 |
+
+The complete comparison for thresholds 0.1 through 0.9 is in `reports/cost_sensitive_threshold_comparison.csv`; the selected decision and input details are in `reports/cost_sensitive_threshold_decision.json` and the readable experiment report is `reports/cost_sensitive_threshold_decision.txt`.
+
+The selected threshold was then frozen and evaluated using the existing Task 2 saved pipeline on a fresh 10,000-row synthetic dataset generated with seed `20261117`. This separate evaluation has 100 fraud and 9,900 legitimate invoices: FP 146, FN 13, total cost $7,230, precision 0.3734, recall 0.8700, and F1 0.5225. Its confusion matrix (actual rows, predicted columns) is `[[9754, 146], [13, 87]]`. These evaluation metrics do not feed back into threshold selection. The Task 2 pipeline binary and historical F1 reports (held-out 0.6667, original synthetic 0.6564, and Task 2 threshold-optimized synthetic 0.7500 at threshold 0.58) remain unchanged.
+
+Run the cost-sensitive optimization and fresh evaluation with:
+
+```bash
+python src/optimize_cost_threshold.py
+```
+
+The existing inference function now reads the selected value from `models/threshold_optimized_config.json`; it no longer enforces the historical Task 2 threshold of 0.58.
 
 ---
 
@@ -506,6 +553,7 @@ ledgerpro-invoice-anomaly-detection-system/
 |   `-- external_test/
 |       |-- invoices_external_test_raw.csv
 |       |-- threshold_optimized_external_seed_20261112.csv
+|       `-- cost_sensitive_evaluation_seed_20261117.csv
 |-- models/
 |   |-- baseline_model.joblib
 |   |-- baseline_pipeline.joblib
@@ -528,7 +576,10 @@ ledgerpro-invoice-anomaly-detection-system/
 |   |-- threshold_optimization_oof_predictions.csv
 |   |-- threshold_optimized_evaluation.txt
 |   |-- threshold_optimized_metrics.json
-|   `-- threshold_optimized_external_predictions.csv
+|   |-- threshold_optimized_external_predictions.csv
+|   |-- cost_sensitive_threshold_comparison.csv
+|   |-- cost_sensitive_threshold_decision.json
+|   `-- cost_sensitive_threshold_decision.txt
 |-- src/
 |   |-- generate_dataset.py
 |   |-- validate_dataset.py
@@ -549,6 +600,7 @@ ledgerpro-invoice-anomaly-detection-system/
 |   |-- tune_gradient_boosting.py
 |   |-- train_final_model.py
 |   |-- optimize_threshold.py
+|   |-- optimize_cost_threshold.py
 |   |-- predict_invoices.py
 |   |-- generate_external_test.py
 |   `-- evaluate_external_test.py
@@ -670,3 +722,14 @@ The threshold selection method, evaluation results, and inference options are do
 - [x] Inference tests (19 passed in latest local run)
 - [x] F1 greater than 0.70 on the fresh synthetic evaluation dataset
 - [ ] Mentor acceptance
+
+## Task 3: Cost-Sensitive Threshold Decision
+
+- [x] OOF prediction schema and unique invoice rows verified
+- [x] Business costs defined and thresholds 0.1 through 0.9 evaluated
+- [x] Minimum-cost threshold selected with documented tie-breaking
+- [x] Fresh synthetic evaluation using the frozen threshold
+- [x] Inference uses the configured cost-sensitive threshold
+- [x] Cost comparison and decision reports generated
+- [x] README decision log and threshold comparison documented
+- [x] Inference tests (19 passed)

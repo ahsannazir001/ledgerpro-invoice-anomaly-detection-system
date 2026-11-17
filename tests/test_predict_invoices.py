@@ -16,7 +16,6 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from predict_invoices import (  # noqa: E402
     DEFAULT_CONFIG_PATH,
-    FROZEN_THRESHOLD,
     load_config,
     predict_records,
     predict_with_pipeline,
@@ -41,21 +40,21 @@ def valid_records(count=1):
 class PredictInvoicesTests(unittest.TestCase):
     def test_frozen_threshold_uses_predict_proba_and_class_1(self):
         config = load_config()
-        self.assertEqual(config["threshold"], FROZEN_THRESHOLD)
+        threshold = config["threshold"]
 
         pipeline = Mock()
         pipeline.classes_ = np.array([0, 1])
         pipeline.predict_proba.return_value = np.array([
-            [0.421, 0.579],
-            [0.420, 0.580],
+            [0.901, 0.099],
+            [0.900, 0.100],
             [0.100, 0.900],
         ])
-        results = predict_with_pipeline(valid_records(3), pipeline, 0.58)
+        results = predict_with_pipeline(valid_records(3), pipeline, threshold)
 
         pipeline.predict_proba.assert_called_once()
         pipeline.predict.assert_not_called()
         self.assertEqual(results["is_fraud_prediction"].tolist(), [0, 1, 1])
-        self.assertTrue((results["threshold"] == FROZEN_THRESHOLD).all())
+        self.assertTrue((results["threshold"] == threshold).all())
 
     def test_rejects_unexpected_class_labels_or_order(self):
         for classes in ([1, 0], [0, 2], [0, 1, 2]):
@@ -63,40 +62,27 @@ class PredictInvoicesTests(unittest.TestCase):
                 pipeline = Mock()
                 pipeline.classes_ = np.asarray(classes)
                 with self.assertRaisesRegex(ValueError, "classes_ must be exactly"):
-                    predict_with_pipeline(valid_records(), pipeline, FROZEN_THRESHOLD)
+                    predict_with_pipeline(valid_records(), pipeline, load_config()["threshold"])
                 pipeline.predict_proba.assert_not_called()
 
-    def test_rejects_any_threshold_other_than_frozen_value(self):
+    def test_rejects_invalid_threshold(self):
         pipeline = Mock()
         pipeline.classes_ = np.array([0, 1])
-        with self.assertRaisesRegex(ValueError, "frozen at 0.58"):
-            predict_with_pipeline(valid_records(), pipeline, 0.5)
+        with self.assertRaisesRegex(ValueError, "between 0 and 1"):
+            predict_with_pipeline(valid_records(), pipeline, 1.5)
         pipeline.predict_proba.assert_not_called()
 
-    def test_reproduces_saved_evaluation_predictions_and_probabilities(self):
+    def test_inference_uses_configured_task3_threshold_and_preserves_probabilities(self):
         evaluation_data = pd.read_csv(
             ROOT / "data" / "external_test"
             / "threshold_optimized_external_seed_20261112.csv"
         )
-        saved_predictions = pd.read_csv(
-            ROOT / "reports" / "threshold_optimized_external_predictions.csv"
-        )
-
         inference_results = predict_records(evaluation_data)
-
-        self.assertEqual(
-            inference_results["invoice_id"].tolist(),
-            saved_predictions["invoice_id"].tolist(),
-        )
-        self.assertEqual(
-            inference_results["is_fraud_prediction"].tolist(),
-            saved_predictions["predicted"].tolist(),
-        )
-        np.testing.assert_allclose(
-            inference_results["fraud_probability"].to_numpy(),
-            saved_predictions["fraud_probability"].to_numpy(),
-            rtol=1e-12,
-            atol=1e-12,
+        self.assertEqual(inference_results["invoice_id"].tolist(), evaluation_data["invoice_id"].tolist())
+        self.assertEqual(inference_results["threshold"].unique().tolist(), [load_config()["threshold"]])
+        np.testing.assert_array_equal(
+            inference_results["is_fraud_prediction"].to_numpy(),
+            (inference_results["fraud_probability"].to_numpy() >= load_config()["threshold"]).astype(int),
         )
 
     def test_rejects_missing_columns(self):

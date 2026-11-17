@@ -1,0 +1,37 @@
+LEDGERPRO TASK 3: COST-SENSITIVE THRESHOLD DECISION
+==============================================================
+
+BUSINESS ASSUMPTIONS
+False positive: $5.00 per legitimate invoice reviewed.
+False negative: $500.00 per missed fraudulent invoice.
+Total cost = FP * false-positive cost + FN * false-negative cost.
+
+VALIDATION AND DECISION
+Source: reports/threshold_optimization_oof_predictions.csv
+Rows counted once: 10000; fraud: 100; legitimate: 9900.
+OOF predictions are already averaged across five repeats and have unique row_index values.
+Tie-break: minimum cost, then higher recall, higher precision, then higher threshold.
+Selected threshold: 0.1
+Validation FP: 138; FN: 15; total cost: $8190.00.
+Precision: 0.381166; recall: 0.850000; F1: 0.526316.
+
+THRESHOLD COMPARISON
+ threshold  tp   tn  fp  fn  precision  recall     f1  fp_cost    fn_cost  total_cost
+    0.1000  85 9762 138  15     0.3812  0.8500 0.5263 690.0000  7500.0000   8190.0000
+    0.2000  78 9812  88  22     0.4699  0.7800 0.5865 440.0000 11000.0000  11440.0000
+    0.3000  76 9832  68  24     0.5278  0.7600 0.6230 340.0000 12000.0000  12340.0000
+    0.4000  73 9851  49  27     0.5984  0.7300 0.6577 245.0000 13500.0000  13745.0000
+    0.5000  72 9863  37  28     0.6606  0.7200 0.6890 185.0000 14000.0000  14185.0000
+    0.6000  70 9873  27  30     0.7216  0.7000 0.7107 135.0000 15000.0000  15135.0000
+    0.7000  65 9881  19  35     0.7738  0.6500 0.7065  95.0000 17500.0000  17595.0000
+    0.8000  60 9885  15  40     0.8000  0.6000 0.6857  75.0000 20000.0000  20075.0000
+    0.9000  52 9889  11  48     0.8254  0.5200 0.6380  55.0000 24000.0000  24055.0000
+
+FRESH SYNTHETIC EVALUATION (NOT USED FOR THRESHOLD SELECTION)
+Dataset: data/external_test/cost_sensitive_evaluation_seed_20261117.csv (seed 20261117)
+Threshold: 0.1; FP: 146; FN: 13; total cost: $7230.00.
+Precision: 0.373391; recall: 0.870000; F1: 0.522523.
+Confusion matrix (actual rows [legitimate, fraud], predicted columns [legitimate, fraud]):
+[[9754, 146], [13, 87]]
+
+The saved Task 2 pipeline was loaded unchanged; only the inference threshold configuration was updated.

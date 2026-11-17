@@ -18,7 +18,6 @@ ROOT = Path(__file__).resolve().parents[1]
 MODELS_DIR = (ROOT / "models").resolve()
 EXPECTED_ARTIFACT = "models/threshold_optimized_pipeline.joblib"
 DEFAULT_CONFIG_PATH = MODELS_DIR / "threshold_optimized_config.json"
-FROZEN_THRESHOLD = 0.58
 REQUIRED_COLUMNS = {
     "amount",
     "payment_terms_days",
@@ -70,8 +69,8 @@ def load_config(config_path: Path = DEFAULT_CONFIG_PATH) -> dict[str, Any]:
         raise ValueError("Config artifact must name the approved threshold-optimized pipeline.")
     if not isinstance(config["threshold"], (int, float)) or isinstance(config["threshold"], bool):
         raise ValueError("Inference config threshold must be numeric.")
-    if float(config["threshold"]) != FROZEN_THRESHOLD:
-        raise ValueError(f"Inference threshold is frozen at {FROZEN_THRESHOLD:.2f}.")
+    if not np.isfinite(float(config["threshold"])) or not 0.0 <= float(config["threshold"]) <= 1.0:
+        raise ValueError("Inference threshold must be finite and between 0 and 1.")
     if config["decision_rule"] != "predict_proba(X)[:, 1] >= threshold":
         raise ValueError("Unsupported inference decision rule in config.")
     if config["target"] != "is_fraud":
@@ -122,7 +121,7 @@ def load_config(config_path: Path = DEFAULT_CONFIG_PATH) -> dict[str, Any]:
         raise ValueError("Inference config imbalance metadata is invalid.")
 
     selection = config["threshold_selection"]
-    if not isinstance(selection, dict) or selection.get("selected_threshold") != FROZEN_THRESHOLD:
+    if not isinstance(selection, dict) or selection.get("selected_threshold") != config["threshold"]:
         raise ValueError("Inference config threshold-selection metadata is invalid.")
     if not isinstance(selection.get("method"), str) or not isinstance(selection.get("validation"), str):
         raise ValueError("Inference config threshold-selection metadata is incomplete.")
@@ -281,9 +280,10 @@ def predict_with_pipeline(
     if (
         isinstance(threshold, bool)
         or not isinstance(threshold, (int, float, np.number))
-        or float(threshold) != FROZEN_THRESHOLD
+        or not np.isfinite(float(threshold))
+        or not 0.0 <= float(threshold) <= 1.0
     ):
-        raise ValueError(f"Inference threshold is frozen at {FROZEN_THRESHOLD:.2f}.")
+        raise ValueError("Inference threshold must be finite and between 0 and 1.")
     features, identifiers = prepare_inference_features(records)
     classes = getattr(pipeline, "classes_", None)
     class_values = None if classes is None else np.asarray(classes).tolist()
@@ -452,7 +452,7 @@ def main() -> None:
         results, args.input_csv, output_path, overwrite=args.overwrite
     )
     print(f"Predicted {len(results)} invoice records.")
-    print(f"Frozen threshold: {FROZEN_THRESHOLD:.2f}")
+    print(f"Frozen threshold: {float(load_config(args.config)['threshold']):.2f}")
     print(f"Saved predictions: {output_path.resolve()}")
 
 
