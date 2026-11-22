@@ -543,6 +543,154 @@ The existing inference function now reads the selected value from `models/thresh
 
 ---
 
+# Task 4: FastAPI Deployment
+
+Task 4 exposes the frozen Task 3 model through a production-oriented FastAPI service. The application loads one trusted joblib pipeline once at startup, reuses the existing batch feature-engineering and prediction logic, and applies the configured threshold `0.10`.
+
+### API Architecture
+
+- `api/main.py`: FastAPI application, lifespan model loading, endpoints, middleware, and exception handling
+- `api/schemas.py`: strict Pydantic request and response models
+- `api/dependencies.py`: trusted project-owned artifact loading and application model state
+- `src/predict_invoices.py`: existing schema validation, feature derivation, and `predict_proba()` inference logic
+- `render.yaml`: free-tier Render deployment configuration
+
+The API loads only `models/threshold_optimized_pipeline.joblib` and reads threshold configuration from `models/threshold_optimized_config.json`. It does not retrain or refit the model.
+
+### Model Metadata
+
+| Property | Value |
+|---|---|
+| Model version | `1.0.0` |
+| Last training date | `unknown` |
+| Threshold | `0.10` |
+| Positive class | `1` |
+| Classifier | `GradientBoostingClassifier` |
+
+The repository does not contain a verified original training date or explicit model metadata. The health endpoint therefore reports `unknown` rather than inventing a date or incorrectly using a Git/file modification timestamp.
+
+### Installation
+
+From the project root in PowerShell:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+### Local Startup
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+```
+
+Open:
+
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- ReDoc: `http://127.0.0.1:8000/redoc`
+- Health: `http://127.0.0.1:8000/health`
+
+### GET /health
+
+Example response:
+
+```json
+{
+  "status": "healthy",
+  "model_loaded": true,
+  "model_version": "1.0.0",
+  "last_training_date": "unknown",
+  "threshold": 0.1
+}
+```
+
+### POST /predict
+
+Required raw fields:
+
+- `amount`
+- `payment_terms_days`
+- `line_item_count`
+- `invoice_date`
+- `due_date`
+
+Example request:
+
+```json
+{
+  "amount": 1000.0,
+  "payment_terms_days": 30,
+  "line_item_count": 2,
+  "invoice_date": "2025-01-01",
+  "due_date": "2025-01-31"
+}
+```
+
+Example response:
+
+```json
+{
+  "fraud_probability": 0.08,
+  "threshold": 0.1,
+  "fraud_flag": false,
+  "prediction": "Legitimate",
+  "model_version": "1.0.0"
+}
+```
+
+The actual probability must come from `predict_proba(X)[:, 1]`. The returned flag is `true` only when that probability is greater than or equal to `0.10`.
+
+PowerShell request example:
+
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:8000/predict" -Method Post -ContentType "application/json" -Body '{"amount":1000.0,"payment_terms_days":30,"line_item_count":2,"invoice_date":"2025-01-01","due_date":"2025-01-31"}'
+```
+
+### API Tests
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest tests/test_api.py tests/test_predict_invoices.py -v
+```
+
+To run the complete test suite:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -v
+```
+
+### Render Deployment
+
+1. Push the repository to GitHub only after explicit approval.
+2. Create a new Render Web Service and connect the GitHub repository.
+3. Render will detect `render.yaml`.
+4. Confirm the build command: `pip install -r requirements.txt`
+5. Confirm the start command: `uvicorn api.main:app --host 0.0.0.0 --port $PORT`
+6. Deploy and test `/health`, `/predict`, and `/docs` using the generated public URL.
+
+No secrets or environment variables are required for normal operation. The service must use the trusted model file included in the repository.
+
+Public API URL: not yet deployed. Add the verified Render URL here only after deployment and live testing succeed.
+
+### Security and Reliability
+
+- Strict Pydantic validation and forbidden unexpected fields
+- Exact raw and engineered model schemas
+- No user-controlled artifact paths or arbitrary file loading
+- Startup-only trusted artifact loading
+- 64 KB request-size limit
+- Structured validation responses without stack traces or filesystem paths
+- HTTP 503 responses when the model or prediction is unavailable
+- Public CORS configuration is not enabled
+- No credentials or secrets are hardcoded
+
+### Known Limitations
+
+- The API is public only if no hosting authentication is added; add authentication or rate limiting if abuse becomes a concern.
+- The service has no persistent request monitoring or metrics backend in this task.
+- The model is trained on synthetic data and should not be considered production fraud detection evidence.
+- The verified training date remains unknown until project metadata records it explicitly.
+
+---
+
 # Project Structure
 
 ```text
@@ -733,3 +881,11 @@ The threshold selection method, evaluation results, and inference options are do
 - [x] Cost comparison and decision reports generated
 - [x] README decision log and threshold comparison documented
 - [x] Inference tests (19 passed)
+
+## Task 4: FastAPI Deployment
+
+- [x] FastAPI service implementation
+- [x] API contract definition
+- [x] Local and Render deployment instructions
+- [x] Security and reliability considerations
+- [x] Inference tests

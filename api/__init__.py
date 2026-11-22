@@ -1,0 +1,1 @@
+"""LedgerPro FastAPI application package."""
