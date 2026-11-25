@@ -1,5 +1,14 @@
 # LedgerPro Invoice Anomaly Detection System
 
+## Task 5 — Model Card, Client Handover, and Live API Demo
+
+- [Model Card](MODEL_CARD.md) — model purpose, synthetic dataset, architecture, actual metrics, threshold decision, limitations, and responsible use.
+- [Client Handover Guide](CLIENT_HANDOVER.md) — LedgerPro staff instructions for health checks, prediction requests, manual review, and troubleshooting.
+- [API Demo GIF](demo/api-demo.gif) — genuine recording of live Render `/health` and `/predict` calls.
+- [API Demo Video](demo/api-demo.mp4) — downloadable MP4 recording.
+- Live Render API: <https://ledgerpro-invoice-anomaly-detection-8l6u.onrender.com>
+- Swagger UI: <https://ledgerpro-invoice-anomaly-detection-8l6u.onrender.com/docs>
+
 ## Project Overview
 
 LedgerPro Invoice Anomaly Detection System is a Machine Learning project designed to identify potentially fraudulent invoices and flag them for manual review.
@@ -668,7 +677,13 @@ To run the complete test suite:
 
 No secrets or environment variables are required for normal operation. The service must use the trusted model file included in the repository.
 
-Public API URL: not yet deployed. Add the verified Render URL here only after deployment and live testing succeed.
+Public API URL: <https://ledgerpro-invoice-anomaly-detection-8l6u.onrender.com>
+
+Verified live endpoints:
+
+- `GET https://ledgerpro-invoice-anomaly-detection-8l6u.onrender.com/health`
+- `POST https://ledgerpro-invoice-anomaly-detection-8l6u.onrender.com/predict`
+- Swagger UI: `https://ledgerpro-invoice-anomaly-detection-8l6u.onrender.com/docs`
 
 ### Security and Reliability
 
@@ -889,3 +904,14 @@ The threshold selection method, evaluation results, and inference options are do
 - [x] Local and Render deployment instructions
 - [x] Security and reliability considerations
 - [x] Inference tests
+
+## Task 5: Model Documentation and Client Handover
+
+- [x] Professional model card created
+- [x] Synthetic-data and real-world limitations documented
+- [x] Training date documented as unavailable
+- [x] Client handover guide created
+- [x] Live health and prediction endpoints documented
+- [x] Actual verified API examples included
+- [x] Genuine API demo GIF included
+- [x] Genuine API demo video included
